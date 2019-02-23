@@ -4,20 +4,20 @@ let ENVIRONMENT;
 
 switch(process.env.NODE_ENV){
     case 'test': 
-        connectionString = 'mongodb://<user>:<password>@host:port/<your-database>-test'
+        connectionString = process.env.CONNECTION_STRING_TEST;
         ENVIRONMENT = 'TEST';
         break;
-    // case 'DEVELOPMENT':
+    // case 'DEVELOPMENT': break;
     default: 
-        connectionString = 'mongodb://<user>:<password>@host:port/<your-database>';
-        ENVIRONMENT = 'DEVELOPMENT';
+        connectionString = process.env.CONNECTION_STRING_PROD;
+        ENVIRONMENT = 'PRODUCTION';
         break;
 }
 
 
 module.exports = {
-    SALT_KEY: 'YOUR_SALT_KEY',
+    SALT_KEY: process.env.SALT_KEY,
     ENVIRONMENT,
     connectionString,
-    SENDGRID_KEY: 'YOUR_SENDGRID_KEY'
+    SENDGRID_KEY: process.env.SENDGRID_KEY
 }
