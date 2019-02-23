@@ -1,7 +1,7 @@
 'use strict';
 
 const md5 = require('md5');
-const { SALT_KEY } = require('../config');
+const { SALT_KEY, ENVIRONMENT } = require('../config');
 const model = require('../models/user.model');
 const errorHelper = require('../helpers/error.helper');
 const validator = require('../services/validator.service');
@@ -57,7 +57,9 @@ exports.passwordRecovery = async(req, res, next) => {
             let body = 'Envie um POST para http://localhost:3000/user/reset-password/?token='+token+
             " com o body: {password: NOVA_SENHA}";
             
-            await emailService.send(email, 'Recuperação de Senha', body);
+            if(ENVIRONMENT != 'TEST'){
+                await emailService.send(email, 'Recuperação de Senha', body);
+            }
 
             res.status(200).send({
                 message: 'Enviamos um e-mail para '+email+' para que você possa redefinir sua senha.'
